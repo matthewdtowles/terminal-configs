@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,14 +109,34 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ls='colorls'
+# Easy nav to frequently used dirs
+alias projects='cd ~/projects'
+
+# Update shortcuts
+alias upd='sudo apt-get update'
+alias upgchrome='sudo apt-get --only-upgrade install google-chrome-stable'
+alias upgall='sudo apt-get update && sudo apt-get upgrade'
+
+# Git
+alias gscreds='git config credential.helper store'
+alias gprune-branches='git branch | grep -vE "^\*|main" | xargs git branch -d'
+
+# Docker
+alias iwmm-websh='docker compose exec web sh'
+alias iwmm-pg='docker exec -it i-want-my-mtg-postgres-1 psql -U iwmm_pg_user -d i_want_my_mtg'
+alias iwmm-dc-build='docker compose exec web npm run build'
+alias dcsi='docker compose run --rm etl cargo run -- ingest'
+alias dcsc='docker compose run --rm etl cargo run -- cleanup -c'
+
+# Volume Control
+alias volmute='pactl set-sink-mute @DEFAULT_SINK@ toggle'
+alias volup='pactl set-sink-volume @DEFAULT_SINK@ +5%'
+alias voldown='pactl set-sink-volume @DEFAULT_SINK@ -5%'
+alias volmax='pactl set-sink-volume @DEFAULT_SINK@ 100%'
+alias volmid='pactl set-sink-volume @DEFAULT_SINK@ 50%'
+
+# Disk Ctrl
+alias find-large='sudo find / -xdev -type f -size +1G -exec ls -lh {} \; | sort -k5 -h'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-eval "$(rbenv init -)"
-
-
